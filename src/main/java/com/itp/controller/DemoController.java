@@ -2,12 +2,14 @@ package com.itp.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +17,12 @@ import com.itp.model.Player;
 
 @Controller
 public class DemoController {
+	Player player1= new Player(7,"Mahendra Singh Dhoni",100,10000);
+	Player player2= new Player(18,"Virat Kohli",90,9000);
+	Player player3= new Player(45,"Rohit Sharma",80,8000);
+	Player player4= new Player(1,"KL Rahul",50,5000);
+	
+	List<Player> players=new ArrayList(Arrays.asList(player1,player2,player3,player4));
 	
 	@RequestMapping("/")
 	public String demo(Model model)
@@ -35,12 +43,7 @@ public class DemoController {
 	@RequestMapping("/playerList")
 	public String listOfPlayers(Model model)
 	{
-		Player player1= new Player(7,"Mahendra Singh Dhoni",100,10000);
-		Player player2= new Player(18,"Virat Kohli",90,9000);
-		Player player3= new Player(45,"Rohit Sharma",80,8000);
-		Player player4= new Player(1,"KL Rahul",50,5000);
 		
-		List<Player> players=new ArrayList(Arrays.asList(player1,player2,player3,player4));
 		model.addAttribute("players", players);
 		return "list-of-players";
 	}
@@ -78,7 +81,20 @@ public class DemoController {
 	{
 		System.out.println(player);
 		model.addAttribute("player",player);
-		return "confirm";
+		players.add(player);
+		return "redirect:/playerList";
+	}
+	
+	@RequestMapping("/deletePlayer/{jno}")
+	public String deletePlayer(@PathVariable int jno)
+	{
+		Iterator<Player> itr=players.iterator();
+				while(itr.hasNext())
+				{
+					if(itr.next().getJno()==jno)
+						itr.remove();
+				}
+		return "redirect:/playerList";
 	}
 
 }

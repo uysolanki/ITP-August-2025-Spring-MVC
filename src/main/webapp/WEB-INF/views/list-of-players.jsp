@@ -17,6 +17,7 @@
             <th>Player Name</th>
             <th>Matches Played</th>
             <th>Runs Scored</th>
+            <th>Delete</th>
         </tr>
         <c:forEach var="player" items="${players}">
             <tr>
@@ -24,6 +25,7 @@
                 <td>${player.pname}</td>
                 <td>${player.mp}</td>
                 <td>${player.rs}</td>
+                 <td><a href="deletePlayer/${player.jno}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
